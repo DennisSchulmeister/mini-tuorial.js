@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DennisSchulmeister/mini-tuorial.js.git"
+    "url": "git@github.com:DennisSchulmeister/mini-tutorial.js.git"
   },
   "keywords": [
     "HTML",

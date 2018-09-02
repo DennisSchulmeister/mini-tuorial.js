@@ -18,14 +18,14 @@ and beautiful look and a possibility to browse between chapters. This is,
 instead of simply showing a long HTML page, it should be possible to only show
 one chapter at a time and read through them like a book.
 
-So here it is. One the result of one evening of coding. A minimal single page
+So here it is. The result of one evening of coding. A minimal single page
 app which allows to easily build beautiful HTML tutorials. No feature bloat
 and no external dependencies. Just one VanillaJS class and a stylesheet.
 And it doesn't get in your way, except for the stylesheet which applies global
 styling to your document.
 
-Screenshots
------------
+Screenshot
+----------
 
 Everybody loves screenshots, right? Well I do, so feel right at home:
 
