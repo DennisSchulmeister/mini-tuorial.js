@@ -12,7 +12,7 @@
 /**
  * This tiny class controls our web application.
  */
-export class MiniTutorial {
+export default class MiniTutorial {
     /**
      * Yeah! The construktor.
      */
@@ -169,7 +169,6 @@ export class MiniTutorial {
             index++;
 
             if (section.id === "toc") {
-                section.innerHTML = "";
                 section.appendChild(list);
                 return;
             }
@@ -209,7 +208,7 @@ export class MiniTutorial {
         if (index === NaN) return;
 
         event.preventDefault();
-        this.showSection(index);
+        this._showSection(index);
     }
 
     /**
