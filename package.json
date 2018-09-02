@@ -1,0 +1,25 @@
+{
+  "name": "mini-tutorial.js",
+  "version": "1.0.0",
+  "description": "Beautiful HTML tutorials with minimal effort",
+  "main": "mini-tutorial.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DennisSchulmeister/mini-tuorial.js.git"
+  },
+  "keywords": [
+    "HTML",
+    "Documentation",
+    "Manual",
+    "Tutorial"
+  ],
+  "author": "Dennis Schulmeister-Zimolong",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/DennisSchulmeister/mini-tuorial.js/issues"
+  },
+  "homepage": "https://github.com/DennisSchulmeister/mini-tuorial.js#readme"
+}
