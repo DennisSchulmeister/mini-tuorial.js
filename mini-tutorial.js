@@ -272,7 +272,7 @@ export default class MiniTutorial {
             case "ArrowLeft":
                 // Previous <section>
                 if (this.index > 1) {
-                    this.showSection(this.index - 1);
+                    this._showSection(this.index - 1);
                 }
                 break;
             case "ArrowRight":
@@ -281,7 +281,7 @@ export default class MiniTutorial {
             case "KeyN":
                 // Next <section>
                 if (this.index < this.sections.length - 1) {
-                    this.showSection(this.index + 1);
+                    this._showSection(this.index + 1);
                 }
                 break;
         }
