@@ -13,9 +13,59 @@
 
 html {
     font-family: 'Raleway', sans-serif;
-    font-size: 13pt;
-    max-width: 50em;
-    margin: 0 auto;
+    font-size: 12pt;
+    margin: 0;
+    max-width: none;
+
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    max-width: 55em;
+    flex-basis: auto;
+    flex-grow: 1;
+    margin: 0;
+}
+
+@media (min-width: 600px) {
+    html {
+        font-size: 13pt;
+    }
+
+    body {
+        margin: 1em 0 1em 0;
+    }
+}
+@media (min-width: 1024px) {
+    html {
+        font-size: 14pt;
+    }
+}
+
+main {
+    background: rgba(255, 255, 255, 0.9);
+    border: 0px solid white;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    padding: 1rem;
+}
+
+header, footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 1px solid black;
+    padding: 1rem;
+    margin: 0 !important;
+}
+
+header {
+    border-radius: 0.4rem 0.4rem 0 0;
+
+}
+
+footer {
+    border-radius: 0 0 0.4rem 0.4rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,10 +74,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /** Document title **/
 h1 {
-    color: rgb(194, 44, 23);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    margin-bottom: 0;
-    padding-bottom: 0;
+    color: rgb(201, 30, 6);
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9);
+    margin: 0;
+    padding: 0;
 }
 
 p.subtitle {
@@ -36,7 +86,9 @@ p.subtitle {
 
 /** Document content **/
 h2 {
+    /*
     margin-top: 2em;
+    */
     color: rgb(22, 105, 135);
 }
 
@@ -77,18 +129,13 @@ a:hover {
 
 /** Navigation and footer **/
 nav {
-    margin-top: 3em;
-    padding-top: 1em;
-    border: 0px solid rgb(226, 226, 226);
-    border-top-width: 1px;
-
     display: flex;
     justify-content: space-between;
 }
 
-footer {
-    margin-top: 2em;
-    font-size: 80%;
+nav a,
+nav a:visited {
+    color: rgb(124, 178, 196);
 }
 
 /* Print version: Hide navigation and show all sections, instead */
@@ -100,9 +147,5 @@ footer {
 
     .hidden {
         display: block;
-    }
-
-    footer {
-        margin: 0;
     }
 }
