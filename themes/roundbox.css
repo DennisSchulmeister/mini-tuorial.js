@@ -140,6 +140,14 @@ nav a:visited {
 
 /* Print version: Hide navigation and show all sections, instead */
 @media print {
+    html {
+        display: block;
+    }
+
+    header, main, footer {
+        border: 0;
+    }
+
     nav > * {
         display: none;
         padding: 0;
