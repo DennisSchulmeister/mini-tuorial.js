@@ -9,6 +9,8 @@
  */
 "use strict";
 
+import utils from "./utils.js";
+
 /**
  * This tiny class controls our web application.
  */
@@ -39,6 +41,7 @@ export default class MiniTutorial {
      *   });
      */
     start() {
+        this._gobbleWhitespace();
         this._hideAllSections();
         this._insertHeadings();
         this._buildTOC();
@@ -48,6 +51,24 @@ export default class MiniTutorial {
 
         if (isNaN(index)) index = 1;
         this._showSection(index);
+    }
+
+    /**
+     * Eat leading whitespace for all elements with data-gobble attribute.
+     * This helps to insert code examples into the page.
+     */
+    _gobbleWhitespace() {
+        let _gobble = (element, leading) => {
+            element.innerHTML = utils.removeLeadingLinebreaks(element.innerHTML);
+            element.innerHTML = utils.removeTrailingLinebreaks(element.innerHTML);
+            element.innerHTML = utils.shiftLinesLeft(element.innerHTML);
+            element.innerHTML = utils.shiftLinesLeft(element.innerHTML);
+            element.innerHTML = utils.removeTrailingLinebreaks(element.innerHTML);
+        };
+
+        document.querySelectorAll("pre[data-gobble]").forEach(_gobble);
+        document.querySelectorAll("code[data-gobble]").forEach(_gobble);
+        document.querySelectorAll("[data-gobble]").forEach(_gobble);
     }
 
     /**
