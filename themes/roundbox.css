@@ -9,7 +9,7 @@
  */
 
 /** General page layout **/
-@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700);
+@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
 
 html {
     font-family: 'Raleway', sans-serif;
@@ -70,6 +70,10 @@ footer {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Nunito', sans-serif;
+}
+
+pre, code, tt, kbd {
+    font-family: 'Roboto Mono', monospace;
 }
 
 /** Document title **/
