@@ -24,6 +24,7 @@ export default class MiniTutorial {
         this.nav = document.querySelector("nav");
 
         this.index = 0;
+        this.amount = 0;
         this.titlePrefix = document.title;
 
         window.addEventListener("click", event => this._onLinkClicked(event));
@@ -42,6 +43,7 @@ export default class MiniTutorial {
      */
     start() {
         this._gobbleWhitespace();
+        this._countSections();
         this._hideAllSections();
         this._insertHeadings();
         this._buildTOC();
@@ -72,6 +74,20 @@ export default class MiniTutorial {
     }
 
     /**
+     * Assigns each <section> its index with dataset.index, starting with
+     * index 1. Also sets this.amount with the maximum allowed index.
+     */
+    _countSections() {
+        this.amount = 0;
+
+        this.sections.forEach(section => {
+            if (section.id === "toc") return;
+            if (section.dataset.chapter != null) return;
+            section.dataset.index = ++this.amount;
+        });
+    }
+
+    /**
      * Hide all <section> except the one with id="toc", which is the
      * Table of Contents. This simply adds the CSS class "hidden" to
      * each <section>.
@@ -84,7 +100,7 @@ export default class MiniTutorial {
     }
 
     /**
-     * Haide all <section> and show the one with the given index, instead.
+     * Hide all <section> and show the one with the given index, instead.
      * The index always starts at 1, since index 0 is the Table of Contents,
      * which should always be visible.
      *
@@ -92,7 +108,7 @@ export default class MiniTutorial {
      */
     _showSection(index) {
         // Check index
-        if (index < 1 || index >= this.sections.length) index = 1;
+        index = Math.max(Math.min(index, this.amount), 1);
 
         // Push new entry to the browser's navigation history
         this._pushNavigationHistory(index, this.index);
@@ -100,9 +116,9 @@ export default class MiniTutorial {
 
         // Show requested <section>
         this._hideAllSections();
-        let section = this.sections[index];
 
-        if (section === undefined) return;
+        let section = document.querySelector(`section[data-index="${index}"]`);
+        if (!section) return;
         section.classList.remove("hidden");
 
         // Reset window scroll bars
@@ -115,18 +131,10 @@ export default class MiniTutorial {
             document.title = this.titlePrefix;
         }
 
-        // Highligh current <section> in the Table of Contents
-        let currentIndex = 0;
-
-        document.querySelectorAll("#toc li a").forEach(tocItem => {
-            currentIndex++;
-
-            if (currentIndex === index) {
-                tocItem.classList.add("active");
-            } else {
-                tocItem.classList.remove("active");
-            }
-        });
+        // Highlight current <section> in the Table of Contents
+        document.querySelectorAll("#toc li a").forEach(link => link.classList.remove("active"));
+        let link = document.querySelector(`#toc li[data-index="${index}"] a`);
+        if (link) link.classList.add("active");
 
         // Update navigation links
         this.nav.innerHTML = "";
@@ -137,24 +145,24 @@ export default class MiniTutorial {
         this.nav.appendChild(link_next);
 
         if (index > 1) {
-            let sectionPrev = this.sections[index - 1];
+            let sectionPrev = document.querySelector(`section[data-index="${index - 1}"]`);
 
-            if (sectionPrev.dataset.title) {
+            if (sectionPrev && sectionPrev.dataset.title) {
                 link_prev.textContent = sectionPrev.dataset.title;
                 link_prev.href = "#" + (index - 1);
             }
         }
 
-        if (index < this.sections.length - 1) {
-            let sectionNext = this.sections[index + 1];
+        if (index < this.amount) {
+            let sectionNext = document.querySelector(`section[data-index="${index + 1}"]`);
 
-            if (sectionNext.dataset.title) {
+            if (sectionNext && sectionNext.dataset.title) {
                 link_next.textContent = sectionNext.dataset.title;
                 link_next.href = "#" + (index + 1);
             }
         }
 
-        // Show <body> in case it is still invisbile. This prevents flickering
+        // Show <body> in case it is still invisible. This prevents flickering
         // all <section> at the initial page load.
         this.body.classList.remove("hidden");
     }
@@ -168,9 +176,9 @@ export default class MiniTutorial {
         this.sections.forEach(section => {
             let title = section.dataset.title;
             if (title === undefined) return;
+            if (section.id === "toc") return
 
             let headingType = "h2";
-
             if (section.id === "toc") headingType = "h3";
 
             let heading = document.createElement(headingType);
@@ -183,28 +191,44 @@ export default class MiniTutorial {
      * Build Table of Contents
      */
     _buildTOC() {
-        let list = document.createElement("ol");
-        let index = -1;
+        let sectionToc = document.getElementById("toc");
+        if (!sectionToc) return;
+
+        let tocElements = [];
+        let index = 0;
+        let list = null;
 
         this.sections.forEach(section => {
-            index++;
-
-            if (section.id === "toc") {
-                section.appendChild(list);
-                return;
-            }
-
             let title = section.dataset.title;
             if (title === undefined) return;
 
+            if (section.dataset.chapter != null) {
+                let heading = document.createElement("h3");
+                heading.textContent = section.dataset.title;
+                tocElements.push(heading);
+
+                list = null;
+                return;
+            } else if (!section.dataset.index) {
+                return;
+            }
+
+            if (!list) {
+                list = document.createElement("ol");
+                tocElements.push(list);
+            }
+
             let link = document.createElement("a");
             link.textContent = title;
-            link.href = "#" + index;
+            link.href = "#" + section.dataset.index;
 
             let listItem = document.createElement("li");
+            listItem.dataset.index = section.dataset.index;
             listItem.appendChild(link);
             list.appendChild(listItem);
         });
+
+        tocElements.forEach(element => sectionToc.appendChild(element));
     }
 
     /**
