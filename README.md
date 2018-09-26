@@ -6,7 +6,12 @@ Documentation
 
  * See mini-tutorial.js in action: [Manual](https://www.wpvs.de/mini-tutorial/)
  * Download the [manual source code](https://www.github.com/DennisSchulmeister/mt-manual)
- * Download the [template project](https://www.github.com/DennisSchulmeister/mt-template) to get started
+
+Templates to get started:
+
+ * [Simple template](https://www.github.com/DennisSchulmeister/mt-template-simple)
+ * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
+ * [Book template](https://www.github.com/DennisSchulmeister/mt-template-template)
 
 What is it
 ----------
