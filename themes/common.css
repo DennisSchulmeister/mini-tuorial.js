@@ -1,0 +1,84 @@
+/*
+ * mini-tutorial.js (https://www.wpvs.de/mini-tutorial/)
+ * © 2018  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ */
+
+/*
+ * COMMON DECLARATIONS FOR ALL THEMES
+ */
+
+/* Images and figures */
+figure {
+    margin: 0 auto;
+    margin-bottom: 1em;
+}
+
+figure img {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+figcaption {
+    font-size: 90%;
+}
+
+.border {
+    border: 1px solid #e0e0e0;
+}
+
+/* Auto-Number figures */
+body {
+    counter-reset: fig;
+}
+
+figcaption {
+    counter-increment: fig;
+}
+
+figcaption:before {
+    content: var(--figure-short-code, 'Fig. ') counter(fig) ': ';
+}
+
+/** Big Skip **/
+.skip {
+    margin-bottom: 2em;
+}
+
+/** Filename **/
+.fn {
+    font-family: 'Roboto Mono', monospace;
+    color: darkgreen;
+}
+
+/** Command **/
+.cmd {
+    font-family: 'Roboto Mono', monospace;
+    color: darkblue;
+}
+
+/** Screen text **/
+.scr {
+    font-family: 'Roboto Mono', monospace;
+    color: darkred;
+}
+
+/** Keyboard Command **/
+kbd {
+    font-family: 'Roboto Mono', monospace;
+    background-color: rgb(240, 240, 240);
+    color: rgb(47, 47, 47);
+    padding: 0 0.2em 0 0.2em;
+    border-radius: 0.2em;
+    border: 1px solid black;
+}
+
+/* Better Tables */
+td {
+    vertical-align: top;
+}
