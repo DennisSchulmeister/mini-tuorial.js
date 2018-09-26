@@ -10,8 +10,8 @@ Documentation
 Templates to get started:
 
  * [Simple template](https://www.github.com/DennisSchulmeister/mt-template-simple)
- * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
  * [Book template](https://www.github.com/DennisSchulmeister/mt-template-book)
+ * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
 
 What is it
 ----------
@@ -25,16 +25,38 @@ one chapter at a time and read through them like a book.
 
 So here it is. The result of one evening of coding. A minimal single page
 app which allows to easily build beautiful HTML tutorials. No feature bloat
-and no external dependencies. Just one VanillaJS class and a stylesheet.
-And it doesn't get in your way, except for the stylesheet which applies global
+and no external dependencies. Just one VanillaJS class and some stylesheets.
+And it doesn't get in your way, except for the stylesheets which applies global
 styling to your document.
 
-Screenshot
-----------
+White Theme
+-----------
 
-Everybody loves screenshots, right? Well I do, so feel right at home:
+Everybody loves screenshots, right? Well I do, so feel right at home. This
+is the `white.css` theme:
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot-simple.png)
+
+See: https://www.github.com/DennisSchulmeister/mt-template-simple
+
+Book Layout
+-----------
+
+Extension to `white.css` called `book.css` for large documents with a book-like
+structure:
+
+![Screenshot](screenshot-book.png)
+
+See: https://www.github.com/DennisSchulmeister/mt-template-book
+
+Roundbox Layout
+---------------
+
+Alternative to `white.css` called `roundbox.css` for a more playful design:
+
+![Screenshot](screenshot-roundbox.png)
+
+See: https://www.github.com/DennisSchulmeister/mt-template-roundbox
 
 Copyright
 ---------
