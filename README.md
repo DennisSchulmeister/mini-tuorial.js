@@ -11,7 +11,7 @@ Templates to get started:
 
  * [Simple template](https://www.github.com/DennisSchulmeister/mt-template-simple)
  * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
- * [Book template](https://www.github.com/DennisSchulmeister/mt-template-template)
+ * [Book template](https://www.github.com/DennisSchulmeister/mt-template-book)
 
 What is it
 ----------
