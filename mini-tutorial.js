@@ -43,6 +43,7 @@ export default class MiniTutorial {
      */
     start() {
         this._gobbleWhitespace();
+        this._cloneSections();
         this._countSections();
         this._hideAllSections();
         this._insertHeadings();
@@ -71,6 +72,20 @@ export default class MiniTutorial {
         document.querySelectorAll("pre[data-gobble]").forEach(_gobble);
         document.querySelectorAll("code[data-gobble]").forEach(_gobble);
         document.querySelectorAll("[data-gobble]").forEach(_gobble);
+    }
+
+    /**
+     * Resolve <section data-clone="#sec-xxx"></section> so that the section
+     * referenced in data-clone will be duplicated.
+     */
+    _cloneSections() {
+        document.querySelectorAll("section[data-clone]").forEach(element => {
+            let source = document.querySelector(element.dataset.clone);
+            if (!source) return;
+
+            element.innerHTML = source.innerHTML;
+            if (!element.dataset.title) element.dataset.title = source.dataset.title;
+        });
     }
 
     /**
