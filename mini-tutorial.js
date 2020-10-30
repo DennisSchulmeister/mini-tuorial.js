@@ -16,9 +16,20 @@ import utils from "./utils.js";
  */
 export default class MiniTutorial {
     /**
-     * Yeah! The construktor.
+     * Yeah! The construktor. The optional configuration options may contain
+     * the following attributes:
+     *
+     *   » tocStyle: "hamburger" to hide the toc behind a hamburger button
+     *   » sectionTitle: Query string for HTML element to display the
+     *                   section title
+     *
+     * @param {Object} options Configuration options (optional)
      */
-    constructor() {
+    constructor(options) {
+        options = options || {};
+        this.tocStyle = options.tocStyle || "permanent";
+        this.sectionTitle = options.sectionTitle || "";
+
         this.body = document.querySelector("body");
         this.sections = document.querySelectorAll("section");
         this.nav = document.querySelector("nav");
@@ -146,6 +157,12 @@ export default class MiniTutorial {
             document.title = this.titlePrefix;
         }
 
+        // Update central page title
+        if (this.sectionTitle) {
+            let titleElement = document.querySelector(this.sectionTitle);
+            if (titleElement) titleElement.textContent = section.dataset.title;
+        }
+
         // Highlight current <section> in the Table of Contents
         document.querySelectorAll("#toc li a").forEach(link => link.classList.remove("active"));
         let link = document.querySelector(`#toc li[data-index="${index}"] a`);
@@ -192,6 +209,7 @@ export default class MiniTutorial {
             let title = section.dataset.title;
             if (title === undefined) return;
             if (section.id === "toc") return
+            if (this.sectionTitle) return;
 
             let headingType = "h2";
             if (section.id === "toc") headingType = "h3";
@@ -243,7 +261,29 @@ export default class MiniTutorial {
             list.appendChild(listItem);
         });
 
-        tocElements.forEach(element => sectionToc.appendChild(element));
+        if (this.tocStyle === "hamburger") {
+            let buttonElement = document.createElement("div");
+            buttonElement.classList.add("toc-hamburger-button");
+            buttonElement.classList.add("icon-menu");
+
+            let menuElement = document.createElement("div");
+            menuElement.classList.add("toc-hamburger-menu");
+            menuElement.classList.add("hidden");
+            tocElements.forEach(element => menuElement.appendChild(element));
+
+            sectionToc.appendChild(buttonElement);
+            sectionToc.appendChild(menuElement);
+
+            buttonElement.addEventListener("click", () => {
+                if (menuElement.classList.contains("hidden")) {
+                    menuElement.classList.remove("hidden");
+                } else {
+                    menuElement.classList.add("hidden");
+                }
+            })
+        } else {
+            tocElements.forEach(element => sectionToc.appendChild(element));
+        }
     }
 
     /**

@@ -1,0 +1,145 @@
+/*
+ * mini-tutorial.js (https://www.wpvs.de/mini-tutorial/)
+ * © 2020  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ */
+
+/** General page layout **/
+@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
+
+html {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13pt;
+
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 1em;
+    height: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.limit-width {
+    max-width: 50em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+}
+
+pre, code, tt, kbd {
+    font-family: 'Roboto Mono', monospace;
+}
+
+/** Document title **/
+h1 {
+    color: rgb(194, 44, 23);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    margin: 0;
+    bottom: 0;
+
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+p.subtitle {
+    margin: 0;
+}
+
+/** Document content **/
+h2 {
+    margin-top: 2em;
+    color: rgb(22, 105, 135);
+}
+
+p {
+    text-align: justify;
+    hyphens: auto;
+}
+
+.danger {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}
+
+/** Table of Contents, also affects other content, but that's okay. **/
+li {
+    margin-top: 0.5em;
+}
+
+li:first-child {
+    margin-top: 0;
+}
+
+.active {
+    font-weight: bold;
+}
+
+a, a:visited {
+    color: rgb(22, 105, 135);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/** Navigation and footer **/
+nav {
+    margin-top: 3em;
+    padding-top: 1em;
+    font-weight: bold;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+footer {
+    margin-top: 2em;
+    font-size: 80%;
+}
+
+/* Print version: Hide navigation and show all sections, instead */
+@media print {
+    nav > * {
+        display: none;
+        padding: 0;
+    }
+
+    .hidden {
+        display: block;
+    }
+
+    footer {
+        margin: 0;
+    }
+}

@@ -35,7 +35,7 @@ White Theme
 Everybody loves screenshots, right? Well I do, so feel right at home. This
 is the `white.css` theme:
 
-![Screenshot](screenshot-simple.png)
+![Screenshot](screenshots/simple.png)
 
 See: https://www.github.com/DennisSchulmeister/mt-template-simple
 
@@ -45,7 +45,7 @@ Book Layout
 Extension to `white.css` called `book.css` for large documents with a book-like
 structure:
 
-![Screenshot](screenshot-book.png)
+![Screenshot](screenshots/book.png)
 
 See: https://www.github.com/DennisSchulmeister/mt-template-book
 
@@ -54,15 +54,24 @@ Roundbox Layout
 
 Alternative to `white.css` called `roundbox.css` for a more playful design:
 
-![Screenshot](screenshot-roundbox.png)
+![Screenshot](screenshots/roundbox.png)
 
 See: https://www.github.com/DennisSchulmeister/mt-template-roundbox
+
+Slideshow Layout
+----------------
+
+Alternative to the other css files for a simple slideshow presentation:
+
+![Screenshot](screenshots/slideshow.png)
+
+See: https://www.github.com/DennisSchulmeister/mt-template-slideshow
 
 Copyright
 ---------
 
 mini-tutorial.js (https://www.github.com/DennisSchulmeister/mini-tutorial.js) <br/>
-© 2018 – 2019 Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+© 2018 – 2020 Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
