@@ -39,7 +39,7 @@ header {
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 }
 
 section.limit-width {
@@ -115,8 +115,6 @@ a:hover {
 
 /** Navigation and footer **/
 nav {
-    margin-top: 3em;
-    padding-top: 1em;
     font-weight: bold;
 
     display: flex;
@@ -124,7 +122,6 @@ nav {
 }
 
 footer {
-    margin-top: 2em;
     font-size: 80%;
 }
 
