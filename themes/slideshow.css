@@ -65,6 +65,7 @@ h1 {
 }
 
 h2 {
+    color: rgb(22, 105, 135);
     font-size: 1.2em;
 }
 
@@ -73,12 +74,11 @@ p.subtitle {
 }
 
 /** Document content **/
-h2 {
+main h2 {
     margin-top: 2em;
-    color: rgb(22, 105, 135);
 }
 
-p {
+main p {
     text-align: justify;
     hyphens: auto;
 }
