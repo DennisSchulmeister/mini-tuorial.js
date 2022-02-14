@@ -12,6 +12,12 @@
  * COMMON DECLARATIONS FOR ALL THEMES
  */
 
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 /* Hamburger menu */
 #toc {
     /* See: https://stackoverflow.com/a/38796408

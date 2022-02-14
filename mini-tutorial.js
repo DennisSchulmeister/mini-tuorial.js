@@ -147,6 +147,16 @@ export default class MiniTutorial {
         if (!section) return;
         section.classList.remove("hidden");
 
+        // Apply background color
+        this.body.style.backgroundColor = section.dataset.backgroundColor || "";
+        let backgroundImage = section.dataset.backgroundImage || "";
+
+        if (backgroundImage) {
+            this.body.style.backgroundImage = `url(${backgroundImage})`;
+        } else {
+            this.body.style.backgroundImage = "";
+        }
+
         // Reset window scroll bars
         window.scrollTo(0, 0);
 
