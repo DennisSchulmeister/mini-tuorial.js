@@ -169,28 +169,30 @@ export default class MiniTutorial {
         if (link) link.classList.add("active");
 
         // Update navigation links
-        this.nav.innerHTML = "";
-        let link_prev = document.createElement("a");
-        let link_next = document.createElement("a");
+        if (this.nav) {
+            this.nav.innerHTML = "";
+            let link_prev = document.createElement("a");
+            let link_next = document.createElement("a");
 
-        this.nav.appendChild(link_prev);
-        this.nav.appendChild(link_next);
+            this.nav.appendChild(link_prev);
+            this.nav.appendChild(link_next);
 
-        if (index > 1) {
-            let sectionPrev = document.querySelector(`section[data-index="${index - 1}"]`);
+            if (index > 1) {
+                let sectionPrev = document.querySelector(`section[data-index="${index - 1}"]`);
 
-            if (sectionPrev && sectionPrev.dataset.title) {
-                link_prev.textContent = sectionPrev.dataset.title;
-                link_prev.href = "#" + (index - 1);
+                if (sectionPrev && sectionPrev.dataset.title) {
+                    link_prev.textContent = sectionPrev.dataset.title;
+                    link_prev.href = "#" + (index - 1);
+                }
             }
-        }
 
-        if (index < this.amount) {
-            let sectionNext = document.querySelector(`section[data-index="${index + 1}"]`);
+            if (index < this.amount) {
+                let sectionNext = document.querySelector(`section[data-index="${index + 1}"]`);
 
-            if (sectionNext && sectionNext.dataset.title) {
-                link_next.textContent = sectionNext.dataset.title;
-                link_next.href = "#" + (index + 1);
+                if (sectionNext && sectionNext.dataset.title) {
+                    link_next.textContent = sectionNext.dataset.title;
+                    link_next.href = "#" + (index + 1);
+                }
             }
         }
 

@@ -72,7 +72,7 @@ Copyright
 ---------
 
 mini-tutorial.js (https://www.github.com/DennisSchulmeister/mini-tutorial.js) <br/>
-© 2018 – 2020 Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+© 2018 – 2022 Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
