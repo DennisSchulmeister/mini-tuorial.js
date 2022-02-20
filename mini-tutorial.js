@@ -301,7 +301,7 @@ export default class MiniTutorial {
     _onHashChange() {
         let index = parseInt(location.hash.slice(1));
 
-        if (index == NaN) {
+        if (Number.isNaN(index)) {
             index = 1;
         }
 
