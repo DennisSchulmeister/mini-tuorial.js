@@ -42,11 +42,11 @@ export default class MiniTutorial {
      */
     constructor(config) {
         this._config = config || {};
-        this._config.tocStyle = options.tocStyle || "permanent";
-        this._config.sectionTitle = options.sectionTitle || "";
-        this._config.noKeyboardNav = options.noKeyboardNav || false;
-        this._config.noTouchNav = options.noTouchNav || false;
-        this._config.download = options.download || [];
+        this._config.tocStyle = config.tocStyle || "permanent";
+        this._config.sectionTitle = config.sectionTitle || "";
+        this._config.noKeyboardNav = config.noKeyboardNav || false;
+        this._config.noTouchNav = config.noTouchNav || false;
+        this._config.download = config.download || [];
 
         this._bodyElement = document.querySelector("body");
         this._mainElement = document.querySelector("main");
