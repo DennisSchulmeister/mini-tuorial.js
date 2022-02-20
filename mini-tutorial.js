@@ -20,37 +20,89 @@ export default class MiniTutorial {
      * Yeah! The construktor. The optional configuration options may contain
      * the following attributes:
      *
-     *   » tocStyle: "hamburger" to hide the toc behind a hamburger button
-     *   » sectionTitle: Query string for HTML element to display the
-     *                   section title
-     *   » noKeyboardNav: Don't register keyboard navigation event handlers
-     *   » noTouchNav: Don't register touch gesture navigation handlers
-     * @param {Object} options Configuration options (optional)
+     *   » tocStyle:
+     *     "hamburger" to hide the toc behind a hamburger button
+     *
+     *   » sectionTitle:
+     *     Query string for HTML element to display the section title
+     *
+     *   » noKeyboardNav:
+     *     Don't register keyboard navigation event handlers
+     *
+     *   » noTouchNav:
+     *     Don't register touch gesture navigation handlers
+     *
+     *   » download:
+     *     An array of URLs with additional HTML content to download. This
+     *     is intended to split up large documents. The downloaded files
+     *     should not be full HTML documents, but rather directly contain
+     *     additional <section> elements to append to the main document.
+     *
+     * @param {Object} config Configuration options (optional)
      */
-    constructor(options) {
-        // Initialize attributes
-        options = options || {};
-        this.tocStyle = options.tocStyle || "permanent";
-        this.sectionTitle = options.sectionTitle || "";
+    constructor(config) {
+        this._config = config || {};
+        this._config.tocStyle = options.tocStyle || "permanent";
+        this._config.sectionTitle = options.sectionTitle || "";
+        this._config.noKeyboardNav = options.noKeyboardNav || false;
+        this._config.noTouchNav = options.noTouchNav || false;
+        this._config.download = options.download || [];
 
-        this.body = document.querySelector("body");
-        this.sections = document.querySelectorAll("section");
-        this.nav = document.querySelector("nav");
+        this._bodyElement = document.querySelector("body");
+        this._mainElement = document.querySelector("main");
+        this._sectionElements = document.querySelectorAll("section");
+        this._navElement = document.querySelector("nav");
 
-        this.index = 0;
-        this.amount = 0;
-        this.titlePrefix = document.title;
+        this._currentSectionIndex = 0;
+        this._amountSections = 0;
+        this._titlePrefix = document.title;
+        this._eventHandlersRegistered = false;
+    }
 
-        // Register event handlers
+    /**
+     * Call this method in a window load event handler, in order to start
+     * the application. Like this:
+     *
+     *   window.addEventListener("load", async () => {
+     *       let mt = new MiniTutorial({
+     *           // Optional configuration values
+     *       });
+     *
+     *       await mt.start();
+     *   });
+     */
+    async start() {
+        let index = location.hash.slice(1);
+        index = parseInt(index);
+        if (isNaN(index)) index = 1;
+
+        this._registerEventHandlers();
+        await this._downloadHtmlContent();
+        this._gobbleWhitespace();
+        this._cloneSections();
+        this._countSections();
+        this._hideAllSections();
+        this._insertHeadings();
+        this._buildTOC();
+        this._showSection(index);
+    }
+
+    /**
+     * Register event handlers for routing, keyboard and touch navigation.
+     */
+    _registerEventHandlers() {
+        if (this._eventHandlersRegistered) return;
+        this._eventHandlersRegistered = true;
+
         window.addEventListener("hashchange", () => this._onHashChange());
 
-        if (!(options.noKeyboardNav || false)) {
+        if (!this._config.noKeyboardNav) {
             window.addEventListener("keyup", event => this._onKeyUp(event));
         }
 
-        if (!(options.noTouchNav || false)) {
+        if (!this._config.noTouchNav) {
             delete Hammer.defaults.cssProps.userSelect; // Allow text selection on Desktop
-            let hammer = new Hammer.Manager(this.body);
+            let hammer = new Hammer.Manager(this._bodyElement);
 
             hammer.add(new Hammer.Swipe({event: "swipe-left", direction: Hammer.DIRECTION_LEFT}));
             hammer.on("swipe-left", event => this._onTouchGesture(event));
@@ -61,27 +113,22 @@ export default class MiniTutorial {
     }
 
     /**
-     * Call this method in a window load event handler, in order to start
-     * the application. Like this:
-     *
-     *   window.addEventListener("load", () => {
-     *       let mt = new MiniTutorial();
-     *       mt.start();
-     *   });
+     * Download additional HTML content and append it to the main document.
      */
-    start() {
-        this._gobbleWhitespace();
-        this._cloneSections();
-        this._countSections();
-        this._hideAllSections();
-        this._insertHeadings();
-        this._buildTOC();
+    async _downloadHtmlContent() {
+        if (!this._config.download) return;
+        let promises = [];
 
-        let index = location.hash.slice(1);
-        index = parseInt(index);
+        for (let url of this._config.download) {
+            promises.push(new Promise(async (resolve, reject) => {
+                let response = await fetch(url);
+                let html = await response.text();
+                resolve(html);
+            }));
+        }
 
-        if (isNaN(index)) index = 1;
-        this._showSection(index);
+        (await Promise.all(promises)).forEach(html => this._mainElement.innerHTML += html);
+        this._sectionElements = document.querySelectorAll("section");
     }
 
     /**
@@ -118,32 +165,32 @@ export default class MiniTutorial {
 
     /**
      * Assigns each <section> its index with dataset.index, starting with
-     * index 1. Also sets this.amount with the maximum allowed index.
+     * index 1. Also sets this._amountSections with the maximum allowed index.
      */
     _countSections() {
-        this.amount = 0;
+        this._amountSections = 0;
 
-        this.sections.forEach(section => {
+        this._sectionElements.forEach(section => {
             if (section.id === "toc") return;
             if (section.dataset.chapter != null) return;
-            section.dataset.index = ++this.amount;
+            section.dataset.index = ++this._amountSections;
         });
     }
 
     /**
-     * Hide all <section> except the one with id="toc", which is the
-     * Table of Contents. This simply adds the CSS class "hidden" to
-     * each <section>.
+     * Hide all <section> elements except the one with id="toc", which is the
+     * Table of Contents. This simply adds the CSS class "hidden" to each
+     * section.
      */
     _hideAllSections() {
-        this.sections.forEach(section => {
+        this._sectionElements.forEach(section => {
             if (section.id === "toc") return;
             section.classList.add("hidden");
         });
     }
 
     /**
-     * Hide all <section> and show the one with the given index, instead.
+     * Hide all section elements and show the one with the given index, instead.
      * The index always starts at 1, since index 0 is the Table of Contents,
      * which should always be visible.
      *
@@ -151,8 +198,8 @@ export default class MiniTutorial {
      */
     _showSection(index) {
         // Check index
-        index = Math.max(Math.min(index, this.amount), 1);
-        this.index = index;
+        index = Math.max(Math.min(index, this._amountSections), 1);
+        this._currentSectionIndex = index;
 
         // Show requested <section>
         this._hideAllSections();
@@ -162,13 +209,13 @@ export default class MiniTutorial {
         section.classList.remove("hidden");
 
         // Apply background color
-        this.body.style.backgroundColor = section.dataset.backgroundColor || "";
+        this._bodyElement.style.backgroundColor = section.dataset.backgroundColor || "";
         let backgroundImage = section.dataset.backgroundImage || "";
 
         if (backgroundImage) {
-            this.body.style.backgroundImage = `url(${backgroundImage})`;
+            this._bodyElement.style.backgroundImage = `url(${backgroundImage})`;
         } else {
-            this.body.style.backgroundImage = "";
+            this._bodyElement.style.backgroundImage = "";
         }
 
         // Reset window scroll bars
@@ -176,14 +223,14 @@ export default class MiniTutorial {
 
         // Update window title
         if (section.dataset.title) {
-            document.title = `${this.titlePrefix} – ${section.dataset.title}`;
+            document.title = `${this._titlePrefix} – ${section.dataset.title}`;
         } else {
-            document.title = this.titlePrefix;
+            document.title = this._titlePrefix;
         }
 
         // Update central page title
-        if (this.sectionTitle) {
-            let titleElement = document.querySelector(this.sectionTitle);
+        if (this._config.sectionTitle) {
+            let titleElement = document.querySelector(this._config.sectionTitle);
             if (titleElement) titleElement.textContent = section.dataset.title;
         }
 
@@ -193,13 +240,13 @@ export default class MiniTutorial {
         if (link) link.classList.add("active");
 
         // Update navigation links
-        if (this.nav) {
-            this.nav.innerHTML = "";
+        if (this._navElement) {
+            this._navElement.innerHTML = "";
             let link_prev = document.createElement("a");
             let link_next = document.createElement("a");
 
-            this.nav.appendChild(link_prev);
-            this.nav.appendChild(link_next);
+            this._navElement.appendChild(link_prev);
+            this._navElement.appendChild(link_next);
 
             if (index > 1) {
                 let sectionPrev = document.querySelector(`section[data-index="${index - 1}"]`);
@@ -210,7 +257,7 @@ export default class MiniTutorial {
                 }
             }
 
-            if (index < this.amount) {
+            if (index < this._amountSections) {
                 let sectionNext = document.querySelector(`section[data-index="${index + 1}"]`);
 
                 if (sectionNext && sectionNext.dataset.title) {
@@ -222,7 +269,7 @@ export default class MiniTutorial {
 
         // Show <body> in case it is still invisible. This prevents flickering
         // all <section> at the initial page load.
-        this.body.classList.remove("hidden");
+        this._bodyElement.classList.remove("hidden");
     }
 
     /**
@@ -231,11 +278,11 @@ export default class MiniTutorial {
      * from the data-title attribute of each <section>.
      */
     _insertHeadings() {
-        this.sections.forEach(section => {
+        this._sectionElements.forEach(section => {
             let title = section.dataset.title;
             if (title === undefined) return;
             if (section.id === "toc") return
-            if (this.sectionTitle) return;
+            if (this._config.sectionTitle) return;
 
             let headingType = "h2";
             if (section.id === "toc") headingType = "h3";
@@ -257,7 +304,7 @@ export default class MiniTutorial {
         let index = 0;
         let list = null;
 
-        this.sections.forEach(section => {
+        this._sectionElements.forEach(section => {
             let title = section.dataset.title;
             if (title === undefined) return;
 
@@ -287,7 +334,7 @@ export default class MiniTutorial {
             list.appendChild(listItem);
         });
 
-        if (this.tocStyle === "hamburger") {
+        if (this._config.tocStyle === "hamburger") {
             let buttonElement = document.createElement("div");
             buttonElement.classList.add("toc-hamburger-button");
             buttonElement.classList.add("icon-menu");
@@ -338,15 +385,15 @@ export default class MiniTutorial {
         switch (event.code) {
             case "ArrowLeft":
                 // Go to previous section
-                if (this.index > 1) {
-                    this._showSection(this.index - 1);
+                if (this._currentSectionIndex > 1) {
+                    this._showSection(this._currentSectionIndex - 1);
                 }
                 break;
             case "ArrowRight":
             case "Enter":
                 // Go to next section
-                if (this.index < this.sections.length - 1) {
-                    this._showSection(this.index + 1);
+                if (this._currentSectionIndex < this._sectionElements.length - 1) {
+                    this._showSection(this._currentSectionIndex + 1);
                 }
                 break;
         }
@@ -365,14 +412,14 @@ export default class MiniTutorial {
         switch (event.type) {
             case "swipe-left":
                 // Go to previous section
-                if (this.index > 1) {
-                    this._showSection(this.index - 1);
+                if (this._currentSectionIndex > 1) {
+                    this._showSection(this._currentSectionIndex - 1);
                 }
                 break;
             case "swipe-right":
                 // Go to next section
-                if (this.index < this.sections.length - 1) {
-                    this._showSection(this.index + 1);
+                if (this._currentSectionIndex < this._sectionElements.length - 1) {
+                    this._showSection(this._currentSectionIndex + 1);
                 }
                 break;
         }
