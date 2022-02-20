@@ -9,6 +9,7 @@
  */
 "use strict";
 
+import Hammer from "hammerjs";
 import utils from "./utils.js";
 
 /**
@@ -22,10 +23,12 @@ export default class MiniTutorial {
      *   » tocStyle: "hamburger" to hide the toc behind a hamburger button
      *   » sectionTitle: Query string for HTML element to display the
      *                   section title
-     *
+     *   » noKeyboardNav: Don't register keyboard navigation event handlers
+     *   » noTouchNav: Don't register touch gesture navigation handlers
      * @param {Object} options Configuration options (optional)
      */
     constructor(options) {
+        // Initialize attributes
         options = options || {};
         this.tocStyle = options.tocStyle || "permanent";
         this.sectionTitle = options.sectionTitle || "";
@@ -38,8 +41,23 @@ export default class MiniTutorial {
         this.amount = 0;
         this.titlePrefix = document.title;
 
+        // Register event handlers
         window.addEventListener("hashchange", () => this._onHashChange());
-        window.addEventListener("keyup", event => this._onKeyUp(event));
+
+        if (!(options.noKeyboardNav || false)) {
+            window.addEventListener("keyup", event => this._onKeyUp(event));
+        }
+
+        if (!(options.noTouchNav || false)) {
+            delete Hammer.defaults.cssProps.userSelect; // Allow text selection on Desktop
+            let hammer = new Hammer.Manager(this.body);
+
+            hammer.add(new Hammer.Swipe({event: "swipe-left", direction: Hammer.DIRECTION_LEFT}));
+            hammer.on("swipe-left", event => this._onTouchGesture(event));
+
+            hammer.add(new Hammer.Swipe({event: "swipe-right", direction: Hammer.DIRECTION_RIGHT}));
+            hammer.on("swipe-right", event => this._onTouchGesture(event));
+        }
     }
 
     /**
@@ -319,14 +337,40 @@ export default class MiniTutorial {
 
         switch (event.code) {
             case "ArrowLeft":
-                // Previous <section>
+                // Go to previous section
                 if (this.index > 1) {
                     this._showSection(this.index - 1);
                 }
                 break;
             case "ArrowRight":
             case "Enter":
-                // Next <section>
+                // Go to next section
+                if (this.index < this.sections.length - 1) {
+                    this._showSection(this.index + 1);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Handle touch gestures. The following gestures are supported:
+     *
+     *   * Swipe left: Next slide
+     *   * Swipe right: Previous slide
+     * @param  {[HammerEvent]} event hammer.js touch gesture event
+     */
+    _onTouchGesture(event) {
+        if (event.pointerType === "mouse") return;
+
+        switch (event.type) {
+            case "swipe-left":
+                // Go to previous section
+                if (this.index > 1) {
+                    this._showSection(this.index - 1);
+                }
+                break;
+            case "swipe-right":
+                // Go to next section
                 if (this.index < this.sections.length - 1) {
                     this._showSection(this.index + 1);
                 }

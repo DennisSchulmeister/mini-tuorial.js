@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/DennisSchulmeister/mini-tuorial.js/issues"
   },
-  "homepage": "https://github.com/DennisSchulmeister/mini-tuorial.js#readme"
+  "homepage": "https://github.com/DennisSchulmeister/mini-tuorial.js#readme",
+  "devDependencies": {
+    "hammerjs": "^2.0.8"
+  }
 }
