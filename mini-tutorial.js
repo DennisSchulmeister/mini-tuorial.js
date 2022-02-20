@@ -38,9 +38,8 @@ export default class MiniTutorial {
         this.amount = 0;
         this.titlePrefix = document.title;
 
-        window.addEventListener("click", event => this._onLinkClicked(event));
-        window.addEventListener("popstate", event => this._onHistoryChanged(event));
-        window.addEventListener("keyup", event => this._handleKeyUpEvent(event));
+        window.addEventListener("hashchange", () => this._onHashChange());
+        window.addEventListener("keyup", event => this._onKeyUp(event));
     }
 
     /**
@@ -135,9 +134,6 @@ export default class MiniTutorial {
     _showSection(index) {
         // Check index
         index = Math.max(Math.min(index, this.amount), 1);
-
-        // Push new entry to the browser's navigation history
-        this._pushNavigationHistory(index, this.index);
         this.index = index;
 
         // Show requested <section>
@@ -299,76 +295,17 @@ export default class MiniTutorial {
     }
 
     /**
-     * Event handler for clicked <a> elements. This switches the currently
-     * visible <section> if the link starts with a hash-tag. e.g. #1 or #42.
-     * All other links will be ignored and work as normal.
-     *
-     * @param {DOMEvent} event Captured click event
+     * Minimal single page router. Switch the currently visible section
+     * mentioned in the URL hash.
      */
-    _onLinkClicked(event) {
-        let target = event.target;
-        while (target && target.nodeName != "A") target = target.parentNode;
-        if (!target || target.nodeName != "A") return;
+    _onHashChange() {
+        let index = parseInt(location.hash.slice(1));
 
-        let href = target.getAttribute("href");
-        if (href === null || !href.startsWith("#")) return;
+        if (index == NaN) {
+            index = 1;
+        }
 
-        let index = target.hash.slice(1);
-        if (!index.length) return;
-
-        index = parseInt(index);
-        if (index === NaN) return;
-
-        event.preventDefault();
         this._showSection(index);
-    }
-
-    /**
-     * Switch visible <section> when the user presses the browser's back
-     * button. This is working, since the methode this._pushNavigationHistory()
-     * is called, as soon as the visible <section> is switched.
-     *
-     * @param {DOMEvent} event Captured popstate event
-     */
-    _onHistoryChanged(event) {
-        let index = 1;
-
-        if (event.state) {
-            let state = JSON.parse(event.state)
-            index = state.index;
-        } else {
-            index = location.hash.slice(1);
-        }
-
-        index = parseInt(index);
-        if (isNaN(index)) return;
-
-        this._lockHistory = true;
-        this.showSection(index);
-        this._lockHistory = false;
-    }
-
-    /**
-     * Push new entry to the browser's navigation history, once another
-     * <section> is shown. This method is called by this._showSection().
-     *
-     * @param  {Integer} newIndex Index of the new <section>, starting at 1
-     * @param  {Integer} oldIndex Previous index or 0 if none
-     */
-    _pushNavigationHistory(newIndex, oldIndex) {
-        if (this._lockHistory) return;
-
-        let state = {
-            index: newIndex,
-        };
-
-        let url = `#${newIndex}`;
-
-        if (oldIndex == 0) {
-            history.replaceState(JSON.stringify(state), "", url);
-        } else {
-            history.pushState(JSON.stringify(state), "", url);
-        }
     }
 
     /**
@@ -377,7 +314,7 @@ export default class MiniTutorial {
 
      * @param {DOMEvent} event Captured keyup event
      */
-    _handleKeyUpEvent(event) {
+    _onKeyUp(event) {
         if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) return;
 
         switch (event.code) {
@@ -389,8 +326,6 @@ export default class MiniTutorial {
                 break;
             case "ArrowRight":
             case "Enter":
-            case "Space":
-            case "KeyN":
                 // Next <section>
                 if (this.index < this.sections.length - 1) {
                     this._showSection(this.index + 1);
