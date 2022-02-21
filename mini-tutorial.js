@@ -10,10 +10,25 @@
 "use strict";
 
 import Hammer from "hammerjs";
-import utils from "./utils.js";
+
+import StringUtils from "ls-utils/string_utils.js";
 
 /**
- * This tiny class controls our web application.
+ * This tiny class controls our web application. It is really meant to be
+ * instantiated once the page has loaded to take over all control of the
+ * page. Just like its big brother lecture-slides.js it can be extended
+ * with plugins to provide additional features or HTML tags. Plugins are
+ * simple objects the following method:
+ *
+ *   » preprocessHtml(html, utils):
+ *     Called at least once the page has been fully loaded or when the
+ *     `ls-callback-html-changed` event is received any element.
+ *
+ *     The first parameter is a container element with the document's sections
+ *     or the element that caused the `ls-callback-html-changed` event.
+ *
+ *     The second parameter an object with useful utility methods from the
+ *     ls-utils library.
  */
 export default class MiniTutorial {
     /**
@@ -38,6 +53,11 @@ export default class MiniTutorial {
      *     should not be full HTML documents, but rather directly contain
      *     additional <section> elements to append to the main document.
      *
+     *   » plugins:
+     *     List of lecture-slides.js compatible plugin objects which extend
+     *     the application with additional features or HTML tags. Unlike
+     *     lecture-slides.js these are given as an array of instances here.
+     *
      * @param {Object} config Configuration options (optional)
      */
     constructor(config) {
@@ -47,6 +67,7 @@ export default class MiniTutorial {
         this._config.noKeyboardNav = config.noKeyboardNav || false;
         this._config.noTouchNav = config.noTouchNav || false;
         this._config.download = config.download || [];
+        this._config.plugins = config.plugins || [];
 
         this._bodyElement = document.querySelector("body");
         this._mainElement = document.querySelector("main");
@@ -76,8 +97,9 @@ export default class MiniTutorial {
         index = parseInt(index);
         if (isNaN(index)) index = 1;
 
-        this._registerEventHandlers();
         await this._downloadHtmlContent();
+
+        this._registerEventHandlers();
         this._gobbleWhitespace();
         this._cloneSections();
         this._countSections();
@@ -85,6 +107,25 @@ export default class MiniTutorial {
         this._insertHeadings();
         this._buildTOC();
         this._showSection(index);
+    }
+
+    /**
+     * Download additional HTML content and append it to the main document.
+     */
+    async _downloadHtmlContent() {
+        if (!this._config.download) return;
+        let promises = [];
+
+        for (let url of this._config.download) {
+            promises.push(new Promise(async (resolve, reject) => {
+                let response = await fetch(url);
+                let html = await response.text();
+                resolve(html);
+            }));
+        }
+
+        (await Promise.all(promises)).forEach(html => this._mainElement.innerHTML += html);
+        this._sectionElements = document.querySelectorAll("section");
     }
 
     /**
@@ -110,25 +151,19 @@ export default class MiniTutorial {
             hammer.add(new Hammer.Swipe({event: "swipe-right", direction: Hammer.DIRECTION_RIGHT}));
             hammer.on("swipe-right", event => this._onTouchGesture(event));
         }
-    }
 
-    /**
-     * Download additional HTML content and append it to the main document.
-     */
-    async _downloadHtmlContent() {
-        if (!this._config.download) return;
-        let promises = [];
+        window.addEventListener("ls-callback-html-changed", event => {
+            if (!event.detail) return;
 
-        for (let url of this._config.download) {
-            promises.push(new Promise(async (resolve, reject) => {
-                let response = await fetch(url);
-                let html = await response.text();
-                resolve(html);
-            }));
-        }
+            for (let plugin of this._config.plugins) {
+                if (!plugin.preprocessHtml) continue;
+                plugin.preprocessHtml(event.detail);
+            }
+        });
 
-        (await Promise.all(promises)).forEach(html => this._mainElement.innerHTML += html);
-        this._sectionElements = document.querySelectorAll("section");
+        window.dispatchEvent(new CustomEvent("ls-callback-html-changed", {
+            detail: this._mainElement,
+        }));
     }
 
     /**
@@ -136,13 +171,9 @@ export default class MiniTutorial {
      * This helps to insert code examples into the page.
      */
     _gobbleWhitespace() {
-        let _gobble = (element, leading) => {
-            element.innerHTML = utils.removeLeadingLinebreaks(element.innerHTML);
-            element.innerHTML = utils.removeTrailingLinebreaks(element.innerHTML);
-            element.innerHTML = utils.shiftLinesLeft(element.innerHTML);
-            element.innerHTML = utils.shiftLinesLeft(element.innerHTML);
-            element.innerHTML = utils.removeTrailingLinebreaks(element.innerHTML);
-        };
+        let _gobble = element => {
+            element.innerHTML = StringUtils.removeSurroundingWhitespace(element.innerHTML);
+        }
 
         document.querySelectorAll("pre[data-gobble]").forEach(_gobble);
         document.querySelectorAll("code[data-gobble]").forEach(_gobble);
