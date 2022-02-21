@@ -11,7 +11,7 @@
 
 import Hammer from "hammerjs";
 
-import StringUtils from "ls-utils/string_utils.js";
+import StringUtils from "@dschulmeis/ls-utils/string_utils.js";
 
 /**
  * This tiny class controls our web application. It is really meant to be
