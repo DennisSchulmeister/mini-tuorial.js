@@ -107,6 +107,8 @@ export default class MiniTutorial {
         this._insertHeadings();
         this._buildTOC();
         this._showSection(index);
+
+        location.hash = index;
     }
 
     /**
@@ -417,14 +419,14 @@ export default class MiniTutorial {
             case "ArrowLeft":
                 // Go to previous section
                 if (this._currentSectionIndex > 1) {
-                    this._showSection(this._currentSectionIndex - 1);
+                    location.hash = this._currentSectionIndex - 1;
                 }
                 break;
             case "ArrowRight":
             case "Enter":
                 // Go to next section
                 if (this._currentSectionIndex < this._sectionElements.length - 1) {
-                    this._showSection(this._currentSectionIndex + 1);
+                    location.hash = this._currentSectionIndex + 1;
                 }
                 break;
         }
@@ -444,13 +446,13 @@ export default class MiniTutorial {
             case "swipe-left":
                 // Go to previous section
                 if (this._currentSectionIndex > 1) {
-                    this._showSection(this._currentSectionIndex - 1);
+                    location.hash = this._currentSectionIndex - 1;
                 }
                 break;
             case "swipe-right":
                 // Go to next section
                 if (this._currentSectionIndex < this._sectionElements.length - 1) {
-                    this._showSection(this._currentSectionIndex + 1);
+                    location.hash = this._currentSectionIndex + 1;
                 }
                 break;
         }
