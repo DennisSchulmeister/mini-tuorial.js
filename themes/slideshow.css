@@ -42,7 +42,8 @@ main {
     align-items: stretch;
 }
 
-section.limit-width {
+section.limit-width,
+section.limited-width {
     max-width: 50em;
 }
 
