@@ -36,12 +36,23 @@ This package is intentionaly kept simple. Though some compatibility with
 `lecture-slides.js` is maintained, it is lacking heavy features like a
 full-blown UI or print/export optimized rendering. The main purpose is to read
 the content on screen, which can be done with one simple VanilaJS class and
-(almost) no dependencies. Only two dependencies are added for common utilities
-shared with `lecture-slides.js` and `hammer.js` for optional touch navigation.
+(almost) no dependencies. Only two dependencies are added to `@dschulmeis/ls-utils`
+for common utilities shared with `lecture-slides.js`, and `hammer.js` for optional
+touch navigation.
 
 Using the built-in themes different types of documents like short manuals, books
 or simple slideshows can be rendered. The same plugins as for `lecture-slides.js`
 can be used to extend the HTML syntax.
+
+Optional dependencies
+---------------------
+
+Documents built with `mini-tutorial.js` should use a bundler like webpack or
+eslint to pull in the source code of this package. Optionaly, any of the existing
+plugins for `lecture-slides.js`, which provide some often-needed custom HTML
+elements, can be used, too. If Bootstrap is used (e.g. in order to use the
+custom elements from `@dschulmeis/ls-plugin-extra-tags`), LESS can be used to
+load the file `themes/bootstrap.less` with same additional styling.
 
 White Theme
 -----------
