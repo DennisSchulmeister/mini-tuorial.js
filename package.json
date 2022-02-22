@@ -1,6 +1,6 @@
 {
   "name": "@dschulmeis/mini-tutorial.js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Beautiful HTML tutorials with minimal effort",
   "author": "Dennis Schulmeister-Zimolong",
   "license": "AGPL-3.0",
@@ -22,7 +22,7 @@
   "scripts": {
     "do-publish": "npm publish --access=public"
   },
-  "devDependencies": {
+  "dependencies": {
     "@dschulmeis/ls-utils": "^1.0.1",
     "hammerjs": "^2.0.8"
   }
