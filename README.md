@@ -4,7 +4,8 @@ mini-tutorial.js - Beautiful HTML tutorials with minimal effort
 Documentation
 -------------
 
- * See mini-tutorial.js in action: [Manual](https://www.wpvs.de/mini-tutorial/)
+ * See mini-tutorial.js in action: [Manual](https://www.wpvs.de/repo/mini-tutorial/manual/#1)
+ * Real-world example of the book template: [Unfinished web development book](https://www.wpvs.de/repo/webprog/browser-app/#1)
  * Download the [manual source code](https://www.github.com/DennisSchulmeister/mt-manual)
 
 Templates to get started:
@@ -17,24 +18,28 @@ Templates to get started:
 What is it
 ----------
 
-Oh, nothing special but thanks for asking. Basically it is just a tiny hack to
-solve a problem of mine. For my lectures I wanted to be able to put tutorials
+This is the little brother of [lecture-slides.js](https://www.github.com/DennisSchulmeister/lecture-slides.js)
+to create simple HTML manuals and presentations without much effort, solving
+a problem of mine:  For my lectures I wanted to be able to put tutorials
 online without much effort. Tiny manuals or documentation pages with a clean
 and beautiful look and a possibility to browse between chapters. This is,
 instead of simply showing a long HTML page, it should be possible to only show
 one chapter at a time and read through them like a book.
 
-So here it is. The result of one evening of coding. A minimal single page
-app which allows to easily build beautiful HTML tutorials. No feature bloat
-and no external dependencies. Just one VanillaJS class and some stylesheets.
-And it doesn't get in your way, except for the stylesheets which applies global
-styling to your document.
+This package is intentionaly kept simple. Though some compatibility with
+`lecture-slides.js` is maintained, it is lacking heavy features like a
+full-blown UI or print/export optimized rendering. The main purpose is to read
+the content on screen, which can be done with one simple VanilaJS class and
+(almost) no dependencies. Only two dependencies are added for common utilities
+shared with `lecture-slides.js` and `hammer.js` for optional touch navigation.
+
+Using the built-in themes different types of documents like short manuals, books
+or simple slideshows can be rendered.
 
 White Theme
 -----------
 
-Everybody loves screenshots, right? Well I do, so feel right at home. This
-is the `white.css` theme:
+This is the `white.css` theme with probably the most simple layout:
 
 ![Screenshot](screenshots/simple.png)
 
