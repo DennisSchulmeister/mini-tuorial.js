@@ -15,6 +15,12 @@ Templates to get started:
  * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
  * [Slideshow template](https://www.github.com/DennisSchulmeister/mt-template-slideshow)
 
+Optional plugins:
+
+ * [Markdown Syntax](https://www.github.com/DennisSchulmeister/ls-plugin-markdown)
+ * [Syntax Highlighting](https://www.github.com/DennisSchulmeister/ls-plugin-highlight.js)
+ * [LS Extra Tags](https://www.github.com/DennisSchulmeister/ls-plugin-extra-tags)
+
 What is it
 ----------
 
@@ -34,7 +40,8 @@ the content on screen, which can be done with one simple VanilaJS class and
 shared with `lecture-slides.js` and `hammer.js` for optional touch navigation.
 
 Using the built-in themes different types of documents like short manuals, books
-or simple slideshows can be rendered.
+or simple slideshows can be rendered. The same plugins as for `lecture-slides.js`
+can be used to extend the HTML syntax.
 
 White Theme
 -----------
