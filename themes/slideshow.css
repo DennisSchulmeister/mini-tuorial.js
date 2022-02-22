@@ -44,7 +44,8 @@ main {
 
 section.limit-width,
 section.limited-width {
-    max-width: 50em;
+    width: 50em;
+    max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
