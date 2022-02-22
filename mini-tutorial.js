@@ -173,13 +173,9 @@ export default class MiniTutorial {
      * This helps to insert code examples into the page.
      */
     _gobbleWhitespace() {
-        let _gobble = element => {
+        for (element of document.querySelectorAll("[data-gobble]")) {
             element.innerHTML = StringUtils.removeSurroundingWhitespace(element.innerHTML);
         }
-
-        document.querySelectorAll("pre[data-gobble]").forEach(_gobble);
-        document.querySelectorAll("code[data-gobble]").forEach(_gobble);
-        document.querySelectorAll("[data-gobble]").forEach(_gobble);
     }
 
     /**
