@@ -9,6 +9,7 @@
  */
 
 /** EXTENSION TO WHITE.CSS FOR A BOOK-STYLE LAYOUT **/
+@import "white.css";
 
 /* Place Table of Contents left on large screens */
 #icon {

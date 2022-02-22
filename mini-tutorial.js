@@ -363,7 +363,7 @@ export default class MiniTutorial {
         if (this._config.tocStyle === "hamburger") {
             let buttonElement = document.createElement("div");
             buttonElement.classList.add("toc-hamburger-button");
-            buttonElement.classList.add("icon-menu");
+            buttonElement.classList.add("__mt__icon-menu");
 
             let menuElement = document.createElement("div");
             menuElement.classList.add("toc-hamburger-menu");

@@ -9,6 +9,8 @@
  */
 
 /** General page layout **/
+@import "common.css";
+
 @import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
 
 html {

@@ -11,6 +11,7 @@
 /*
  * COMMON DECLARATIONS FOR ALL THEMES
  */
+@import "fontello/css/mini-tutorial-icons.css";
 
 body {
     background-size: cover;
