@@ -20,15 +20,12 @@ import StringUtils from "@dschulmeis/ls-utils/string_utils.js";
  * with plugins to provide additional features or HTML tags. Plugins are
  * simple objects the following method:
  *
- *   » preprocessHtml(html, utils):
+ *   » preprocessHtml(html):
  *     Called at least once the page has been fully loaded or when the
- *     `ls-callback-html-changed` event is received any element.
- *
- *     The first parameter is a container element with the document's sections
- *     or the element that caused the `ls-callback-html-changed` event.
- *
- *     The second parameter an object with useful utility methods from the
- *     ls-utils library.
+ *     `ls-callback-html-changed` event is received any element. Receives
+ *     an HTML element which is either the container element in which the
+ *     sections resides or the element for which the  `ls-callback-html-changed`
+ *     event was triggered.
  */
 export default class MiniTutorial {
     /**
