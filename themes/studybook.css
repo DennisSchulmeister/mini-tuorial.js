@@ -1,0 +1,112 @@
+/*
+ * mini-tutorial.js (https://www.wpvs.de/mini-tutorial/)
+ * © 2022  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ */
+
+/** EXTENSION TO WHITE.CSS FOR A BOOK-STYLE LAYOUT **/
+@import "white.css";
+
+/* Place Table of Contents left on large screens */
+@media screen and (min-width: 85em) {
+    /* Override widht constraint from white.css */
+    html {
+        max-width: none;
+    }
+
+    /* Use grid to build the layout */
+    body {
+        display: grid;
+        grid-gap: 0;
+        grid-template-columns: auto 1fr minmax(auto, 30em);
+        grid-template-rows: auto 1fr auto;
+        padding: 0;
+    }
+
+    body > header {
+        grid-row: 1;
+        grid-column: 1 / 4;
+
+        padding: 0.5rem;
+    }
+
+    body > aside[data-toc] {
+        grid-row: 2 / main-end;
+        grid-column: 1;
+
+        margin-top: 1rem;
+        padding: 0.5rem;
+        padding-right: 2rem;
+        border-right: 1px dashed #e0e0e0;
+    }
+
+    body > main {
+        grid-row: 2;
+        grid-column: 2;
+
+        margin-top: 1rem;
+        width: 50em;
+        justify-self: center;
+    }
+
+    body > aside[data-notes] {
+        grid-row: 2 / main-end;
+        grid-column: 3;
+        margin-right: 1.5rem;
+    }
+
+    body > aside[data-notes] > *:first-child {
+        position: sticky;
+        top: 1.5rem;
+        height: min(calc(100vh - 3rem), calc(100% - 1.5rem));
+        overflow: hidden;
+
+        display: flex;
+        flex-direction: column;
+
+        background: white;
+    }
+
+    body > footer {
+        grid-row: 3;
+        grid-column: 2;
+
+        padding: 1.5rem;
+    }
+
+    /* Fine-tune some margins */
+    #toc .toc-title {
+        display: none;
+    }
+
+    #toc ol {
+        margin-bottom: 1.5em;
+    }
+
+    #toc ol:last-child {
+        margin-bottom: 0;
+    }
+
+    footer > nav {
+        font-weight: bold;
+        border: none;
+    }
+}
+
+@media print {
+    body > aside[data-toc] {
+        margin-top: 1.5em;
+    }
+
+    body > aside[data-notes] {
+        display: none;
+    }
+
+    #toc .toc-title {
+        margin-top: 0;
+    }
+}

@@ -131,8 +131,18 @@ p.subtitle {
     }
 }
 
-#toc ol {
+#toc ol, #toc ul {
     margin-top: 0;
+}
+
+#toc .tocListNone {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#toc .icon {
+    margin-right: 0.5em;
 }
 
 @media screen {

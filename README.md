@@ -12,6 +12,7 @@ Templates to get started:
 
  * [Simple template](https://www.github.com/DennisSchulmeister/mt-template-simple)
  * [Book template](https://www.github.com/DennisSchulmeister/mt-template-book)
+ * [Studybook template](https://www.github.com/DennisSchulmeister/mt-template-studybook)
  * [Roundbox template](https://www.github.com/DennisSchulmeister/mt-template-roundbox)
  * [Slideshow template](https://www.github.com/DennisSchulmeister/mt-template-slideshow)
 
@@ -72,6 +73,16 @@ structure:
 ![Screenshot](screenshots/book.png)
 
 See: https://www.github.com/DennisSchulmeister/mt-template-book
+
+Studybook Layout
+----------------
+
+Similar extension to `white.css` as `book.css` but with a more professional
+layout and the possibility to make notes to each section.
+
+![Screenshot](screenshots/studybook.png)
+
+See: https://www.github.com/DennisSchulmeister/mt-template-studybook
 
 Roundbox Layout
 ---------------

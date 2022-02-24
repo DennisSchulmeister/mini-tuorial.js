@@ -59,12 +59,13 @@ export default class MiniTutorial {
      */
     constructor(config) {
         this._config = config || {};
-        this._config.tocStyle = config.tocStyle || "permanent";
-        this._config.sectionTitle = config.sectionTitle || "";
-        this._config.noKeyboardNav = config.noKeyboardNav || false;
-        this._config.noTouchNav = config.noTouchNav || false;
-        this._config.download = config.download || [];
-        this._config.plugins = config.plugins || [];
+        this._config.tocStyle = this._config.tocStyle || "permanent";
+        this._config.tocList = this._config.tocList || "ol";
+        this._config.sectionTitle = this._config.sectionTitle || "";
+        this._config.noKeyboardNav = this._config.noKeyboardNav || false;
+        this._config.noTouchNav = this._config.noTouchNav || false;
+        this._config.download = this._config.download || [];
+        this._config.plugins = this._config.plugins || [];
 
         this._bodyElement = document.querySelector("body");
         this._mainElement = document.querySelector("main");
@@ -234,6 +235,10 @@ export default class MiniTutorial {
         if (!section) return;
         section.classList.remove("hidden");
 
+        window.dispatchEvent(new CustomEvent("ls-callback-section-changed", {
+            detail: section,
+        }));
+
         // Apply background color
         this._bodyElement.style.backgroundColor = section.dataset.backgroundColor || "";
         let backgroundImage = section.dataset.backgroundImage || "";
@@ -356,18 +361,30 @@ export default class MiniTutorial {
             }
 
             if (!list) {
-                list = document.createElement("ol");
+                list = document.createElement(this._config.tocList === "ol" ? "ol" : "ul");
                 tocElements.push(list);
+
+                if (this._config.tocList === "none") {
+                    list.classList.add("tocListNone");
+                }
             }
 
             let link = document.createElement("a");
             link.textContent = title;
             link.href = "#" + section.dataset.index;
+            // if (section.dataset.icon != undefined) link.classList.add(section.dataset.icon);
 
             let listItem = document.createElement("li");
             listItem.dataset.index = section.dataset.index;
             listItem.appendChild(link);
             list.appendChild(listItem);
+
+            if (section.dataset.icon != undefined) {
+                let icon = document.createElement("span");
+                icon.classList.add("icon");
+                icon.classList.add(section.dataset.icon);
+                link.before(icon);
+            }
         });
 
         if (this._config.tocStyle === "hamburger") {
@@ -418,6 +435,8 @@ export default class MiniTutorial {
      */
     _onKeyUp(event) {
         if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) return;
+        if (event.target.nodeName != "BODY" && event.target.nodeName != "SECTION"
+                && event.target.nodeNode != "MAIN") return;
 
         switch (event.code) {
             case "ArrowLeft":
