@@ -11,11 +11,7 @@
 /** General page layout **/
 @import "common.css";
 
-@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
-
 html {
-    font-family: 'Raleway', sans-serif;
-    font-size: 12pt;
     margin: 0;
     max-width: none;
 
@@ -24,13 +20,14 @@ html {
 }
 
 body {
+    box-sizing: content-box; /* Override border-box from Bootstrap */
     max-width: 55em;
     flex-basis: auto;
     flex-grow: 1;
     margin: 0;
 }
 
-@media (min-width: 600px) {
+@media screen and (min-width: 600px) {
     html {
         font-size: 13pt;
     }
@@ -39,7 +36,7 @@ body {
         margin: 1em 0 1em 0;
     }
 }
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
     html {
         font-size: 14pt;
     }
@@ -50,87 +47,45 @@ main {
     border: 0px solid white;
     border-left-width: 1px;
     border-right-width: 1px;
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 
 header, footer {
     background: rgba(0, 0, 0, 0.8);
     color: white;
     border: 1px solid black;
-    padding: 1rem;
+    /* padding: 1rem; */
     margin: 0 !important;
+}
+
+@media screen {
+    main, header, footer {
+        padding: 1rem;
+    }
 }
 
 header {
     border-radius: 0.4rem 0.4rem 0 0;
-
 }
 
 footer {
     border-radius: 0 0 0.4rem 0.4rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
-}
-
-pre, code, tt, kbd {
-    font-family: 'Roboto Mono', monospace;
-}
-
 /** Document title **/
 h1 {
     color: rgb(201, 30, 6);
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9);
-    margin: 0;
-    padding: 0;
 }
 
-p.subtitle {
-    margin: 0;
-}
+/** Main Content **/
+@media screen {
+    .toc-title {
+        margin-top: 0;
+    }
 
-/** Document content **/
-h2 {
-    /*
-    margin-top: 2em;
-    */
-    color: rgb(22, 105, 135);
-}
-
-p {
-    text-align: justify;
-    hyphens: auto;
-}
-
-.danger {
-    color: red;
-}
-
-.hidden {
-    display: none;
-}
-
-/** Table of Contents, also affects other content, but that's okay. **/
-li {
-    margin-top: 0.5em;
-}
-
-li:first-child {
-    margin-top: 0;
-}
-
-.active {
-    font-weight: bold;
-}
-
-a, a:visited {
-    color: rgb(22, 105, 135);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+    .section-title {
+        margin-top: 1em;
+    }
 }
 
 /** Navigation and footer **/
@@ -152,14 +107,5 @@ nav a:visited {
 
     header, main, footer {
         border: 0;
-    }
-
-    nav > * {
-        display: none;
-        padding: 0;
-    }
-
-    .hidden {
-        display: block;
     }
 }

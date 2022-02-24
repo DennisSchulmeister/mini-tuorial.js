@@ -11,15 +11,91 @@
 /*
  * COMMON DECLARATIONS FOR ALL THEMES
  */
+@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
 @import "fontello/css/mini-tutorial-icons.css";
 
 body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12pt;
+    padding: 1em;
+
+    background-color: transparent;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-/* Hamburger menu */
+.hidden, .print-only {
+    display: none;
+}
+
+@media print {
+    .hidden {
+        display: block;
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    .print-only {
+        display: inherit;
+    }
+}
+
+/** Headings **/
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+}
+
+h1 {
+    font-size: 24pt;
+
+    color: rgb(194, 44, 23);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+h2 {
+    font-size: 18pt;
+    color: rgb(22, 105, 135);
+}
+
+.toc-title {
+    margin-top: 1em;
+}
+
+.chapter-title {
+    color: rgb(194, 44, 23);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-size: 21pt;
+}
+
+@media print {
+    .section-title, .chapter-title {
+        margin-top: 2em;
+    }
+}
+
+h3 {
+    font-size: 13pt;
+}
+
+h4, h5, h6 {
+    font-size: 12pt;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+}
+
+p.subtitle {
+    margin: 0;
+}
+
+/** Table of Contents **/
 #toc {
     /* See: https://stackoverflow.com/a/38796408
      * transform makes the element the viewport on which "position: fixed"
@@ -35,16 +111,77 @@ body {
 
 #toc .toc-hamburger-menu {
     position: fixed;
-    width: 15em;
+    width: max-content;
     right: 0;
+    margin-top: 0.5em;
+    padding: 0.5em;
 
     border: 1px solid lightgrey;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
     background: white;
-    margin-top: 0.5em;
 }
 
-/* Images and figures */
+@media print {
+    #toc .toc-hamburger-menu {
+        position: inherit;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+#toc ol {
+    margin-top: 0;
+}
+
+@media screen {
+    #toc .active {
+        font-weight: bold;
+    }
+}
+
+/** Footer **/
+footer > nav {
+    margin-bottom: 0.5em;
+}
+
+@media print {
+    footer {
+        padding-top: 2em;
+    }
+
+    footer nav > * {
+        display: none;
+    }
+}
+
+/** Main content **/
+p {
+    text-align: justify;
+    hyphens: auto;
+    margin-top: 0;
+}
+
+a, a:visited {
+    color: rgb(22, 105, 135);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+pre, code, tt, kbd {
+    font-family: 'Roboto Mono', monospace;
+}
+
+li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+/** Images and figures **/
 figure {
     margin: 0 auto;
     margin-bottom: 1em;
@@ -64,7 +201,7 @@ figcaption {
     border: 1px solid #e0e0e0;
 }
 
-/* Auto-Number figures */
+/** Auto-Number figures **/
 body {
     counter-reset: fig;
 }
@@ -77,31 +214,49 @@ figcaption:before {
     content: var(--figure-short-code, 'Fig. ') counter(fig) ': ';
 }
 
-/** Big Skip **/
+/** Better Tables **/
+td {
+    vertical-align: top;
+}
+
+th, td {
+    padding-right: 1em;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+
+/** Nicer quotes **/
+blockquote {
+    text-align: right;
+}
+
+/** Useful utility classes **/
 .skip {
     margin-bottom: 2em;
 }
 
-/** Filename **/
 .fn {
+    /* Filename */
     font-family: 'Roboto Mono', monospace;
     color: darkgreen;
 }
 
-/** Command **/
 .cmd {
+    /* Command */
     font-family: 'Roboto Mono', monospace;
     color: darkblue;
 }
 
-/** Screen text **/
 .scr {
+    /* Screen text */
     font-family: 'Roboto Mono', monospace;
     color: darkred;
 }
 
-/** Keyboard Command **/
 kbd {
+    /* Keyboard Command */
     font-family: 'Roboto Mono', monospace;
     background-color: rgb(240, 240, 240);
     color: rgb(47, 47, 47);
@@ -110,7 +265,7 @@ kbd {
     border: 1px solid black;
 }
 
-/* Better Tables */
-td {
-    vertical-align: top;
+.danger {
+    /* Warning text */
+    color: red;
 }

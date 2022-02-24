@@ -9,14 +9,9 @@
  */
 
 /** General page layout **/
-@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
 @import "common.css";
 
-
 html {
-    font-family: 'Raleway', sans-serif;
-    font-size: 13pt;
-
     margin: 0;
     padding: 0;
     height: 100%;
@@ -38,83 +33,18 @@ header {
     justify-content: space-between;
 }
 
-main {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
+@media screen {
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+    }
 }
 
 section.limit-width,
 section.limited-width {
     width: 50em;
     max-width: 100%;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
-}
-
-pre, code, tt, kbd {
-    font-family: 'Roboto Mono', monospace;
-}
-
-/** Document title **/
-h1 {
-    color: rgb(194, 44, 23);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    margin: 0;
-    bottom: 0;
-
-    font-size: 1.5em;
-}
-
-h2 {
-    color: rgb(22, 105, 135);
-    font-size: 1.2em;
-}
-
-p.subtitle {
-    margin: 0;
-}
-
-/** Document content **/
-main h2 {
-    margin-top: 2em;
-}
-
-main p {
-    text-align: justify;
-    hyphens: auto;
-}
-
-.danger {
-    color: red;
-}
-
-.hidden {
-    display: none;
-}
-
-/** Table of Contents, also affects other content, but that's okay. **/
-li {
-    margin-top: 0.5em;
-}
-
-li:first-child {
-    margin-top: 0;
-}
-
-.active {
-    font-weight: bold;
-}
-
-a, a:visited {
-    color: rgb(22, 105, 135);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 /** Navigation and footer **/
@@ -129,18 +59,8 @@ footer {
     font-size: 80%;
 }
 
-/* Print version: Hide navigation and show all sections, instead */
 @media print {
-    nav > * {
-        display: none;
-        padding: 0;
-    }
-
-    .hidden {
+    header {
         display: block;
-    }
-
-    footer {
-        margin: 0;
     }
 }

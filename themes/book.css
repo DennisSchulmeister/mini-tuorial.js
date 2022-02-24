@@ -12,7 +12,7 @@
 @import "white.css";
 
 /* Place Table of Contents left on large screens */
-#icon {
+.icon {
     display: none;
 }
 
@@ -27,48 +27,43 @@
         display: grid;
         grid-gap: 1.5em;
         grid-template-columns: 25em 1em 50em;
+        grid-template-rows: auto 1fr auto;
         justify-content: center;
     }
 
-    #icon {
+    body > .icon {
         display: block;
         grid-row: 1;
         grid-column: 2;
     }
 
-    #title {
+    body > header {
         grid-row: 1;
         grid-column: 3;
     }
 
-    #toc-left {
+    body > aside {
         grid-row: 2;
         grid-column: 1;
     }
 
-    #content {
+    body > main {
         grid-row: 2;
         grid-column: 3;
     }
 
-    #bottom {
+    body > footer {
         grid-row: 3;
         grid-column: 3;
     }
 
     /* Fine-tune some margins */
-    #toc > h3 {
-        margin-top: 0;
+    #toc ol {
+        margin-bottom: 1.5em;
     }
 
-    #content h2,
-    #content h3 {
-        margin-top: 0;
-        margin-bottom: 0.5em;
-    }
-
-    #bottom > footer {
-        margin-top: 0.5em;
+    #toc ol:last-child {
+        margin-bottom: 0;
     }
 
     /* Highlight Table of Contents */

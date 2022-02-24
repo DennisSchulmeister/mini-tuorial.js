@@ -9,80 +9,28 @@
  */
 
 /** General page layout **/
-@import url(https://fonts.googleapis.com/css?family=Nunito:700|Raleway:400,400i,700|Roboto+Mono);
-@import "common.js";
+@import "common.css";
 
 html {
-    font-family: 'Raleway', sans-serif;
-    font-size: 13pt;
     max-width: 50em;
     margin: 0 auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
+@media screen {
+    body {
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        min-height: 100vh;
+    }    
 }
 
-pre, code, tt, kbd {
-    font-family: 'Roboto Mono', monospace;
-}
-
-/** Document title **/
-h1 {
-    color: rgb(194, 44, 23);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-p.subtitle {
-    margin: 0;
-}
-
-/** Document content **/
-h2 {
-    margin-top: 2em;
-    color: rgb(22, 105, 135);
-}
-
-p {
-    text-align: justify;
-    hyphens: auto;
-}
-
-.danger {
-    color: red;
-}
-
-.hidden {
-    display: none;
-}
-
-/** Table of Contents, also affects other content, but that's okay. **/
-li {
-    margin-top: 0.5em;
-}
-
-li:first-child {
-    margin-top: 0;
-}
-
-.active {
-    font-weight: bold;
-}
-
-a, a:visited {
-    color: rgb(22, 105, 135);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+main {
+    flex: 1;
 }
 
 /** Navigation and footer **/
 nav {
-    margin-top: 3em;
     padding-top: 1em;
     border: 0px solid rgb(226, 226, 226);
     border-top-width: 1px;
@@ -92,22 +40,5 @@ nav {
 }
 
 footer {
-    margin-top: 2em;
     font-size: 80%;
-}
-
-/* Print version: Hide navigation and show all sections, instead */
-@media print {
-    nav > * {
-        display: none;
-        padding: 0;
-    }
-
-    .hidden {
-        display: block;
-    }
-
-    footer {
-        margin: 0;
-    }
 }

@@ -257,7 +257,10 @@ export default class MiniTutorial {
         // Update central page title
         if (this._config.sectionTitle) {
             let titleElement = document.querySelector(this._config.sectionTitle);
-            if (titleElement) titleElement.textContent = section.dataset.title;
+            if (titleElement) {
+                titleElement.classList.add("no-print");
+                titleElement.textContent = section.dataset.title;
+            }
         }
 
         // Highlight current <section> in the Table of Contents
@@ -306,15 +309,22 @@ export default class MiniTutorial {
     _insertHeadings() {
         this._sectionElements.forEach(section => {
             let title = section.dataset.title;
-            if (title === undefined) return;
-            if (section.id === "toc") return
-            if (this._config.sectionTitle) return;
+            if (!title) return;
 
-            let headingType = "h2";
-            if (section.id === "toc") headingType = "h3";
+            let classnames = [];
 
-            let heading = document.createElement(headingType);
+            if (section.id === "toc") classnames.push("toc-title");
+            else if (section.dataset.chapter !== undefined) classnames.push("chapter-title");
+            else classnames.push("section-title");
+
+            if (this._config.sectionTitle || section.dataset.chapter !== undefined) {
+                classnames.push("print-only");
+            }
+
+            let heading = document.createElement("h2");
+            classnames.forEach(cls => heading.classList.add(cls));
             heading.textContent = title;
+
             section.insertBefore(heading, section.childNodes[0]);
         });
     }
@@ -364,6 +374,7 @@ export default class MiniTutorial {
             let buttonElement = document.createElement("div");
             buttonElement.classList.add("toc-hamburger-button");
             buttonElement.classList.add("__mt__icon-menu");
+            buttonElement.classList.add("no-print");
 
             let menuElement = document.createElement("div");
             menuElement.classList.add("toc-hamburger-menu");
