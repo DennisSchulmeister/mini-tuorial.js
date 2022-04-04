@@ -102,6 +102,7 @@ p.subtitle {
      * children will be aligned.
      */
     transform: translateZ(0);
+    z-index: 999;
 }
 
 #toc .toc-hamburger-button {
