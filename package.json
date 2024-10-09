@@ -18,6 +18,9 @@
     "Manual",
     "Tutorial"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "mini-tutorial.js",
   "scripts": {
     "publish": "npm publish --access=public"
